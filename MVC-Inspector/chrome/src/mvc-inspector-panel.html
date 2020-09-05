@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+<head>
+    <title>MVC Inspector</title>
+    <link href="thirdparty/jquery-ui-1.11.2/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link  href="css/mvc-inspector-panel.css" rel="stylesheet" type="text/css"/>
+    <link  href="css/json-formatter.css" rel="stylesheet" type="text/css"/>
+    <!-- <style id="jfStyleEl"></style> -->
+    <style>
+    body{
+        font: 62.5% "Trebuchet MS", sans-serif;
+        margin: 5px;
+    }
+
+    select {
+        width: 300px;
+    }
+    </style>
+</head>
+<body>
+<div id="main">
+    <!-- Main Tabs -->
+    <div id="mainTabs">
+        <ul>
+            <li><a href="#dashboardTab">Dashboard</a></li>
+            <li><a href="#activeViewsTab">Active Views</a></li>
+            <li><a href="#pausedViewsTab">Paused views</a></li>
+            <li><a href="#destroyedViewsTab">Destroyed Views</a></li>
+            <li><a href="#loadedViewsTab">Loaded Views</a></li>
+            <li><a href="#resourcesTab">Resources</a></li>
+            <li><a href="#querySystemTab">Query System</a></li>
+            <li><a href="#dataModelTab">Data Model</a></li>         
+            <li><a href="#nativeClientTab">Native Client</a></li>
+            <li><a href="#wizardsTab">Wizards</a></li>              
+        </ul>
+        
+        <div id="dashboardTab">
+            <table style='width:100%'>
+                <tr>
+                    <td style='width:30%; text-align: left; font-weight: bold; color: #000000'>
+                        <span style ='font-weight: bold; color: #8E8C8B'>Views Distribution</span>
+                        <div id="loadedViewsDistributionGraph" graphType=""><br/><br/><font color='#64727E'><i>Generating Graph. Please wait...</i></font></div>
+                    </td>
+                    <td style='width:10%'>
+                        <div id="viewsStatistics">
+                            <span style ='font-weight: bold; color: #8E8C8B'>Views</span><hr>
+                            <table style='width:100%'>
+                                <tr class='normalTr'>
+                                    <td style='width:100%'><font color='#000000'>Loaded Views:&nbsp;<span id="viewsStatisticsLoadedViewsCount">0</span></font></td>
+                                </tr>
+                                <tr class='normalTr'>
+                                    <td style='width:100%'><font color='#0B7500'>Active Views:&nbsp;<span id="viewsStatisticsActiveViewsCount">0</span></font></td>
+                                </tr>
+                                <tr class='normalTr'>
+                                    <td style='width:100%'><font color='#A1A127'>Paused Views:&nbsp;<span id="viewsStatisticsPausedViewsCount">0</span></font></td>
+                                </tr>
+                                <tr class='normalTr'>
+                                    <td style='width:100%'><font color='#4B75B8'>Destroyed Views:&nbsp;<span id="viewsStatisticsDestroyedViewsCount">0</span></font></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <div id="resourcesStatistics">
+                            <span style ='font-weight: bold; color: #8E8C8B'>Resources</span><hr>
+                            <table style='width:100%'>
+                                <tr class='normalTr'>
+                                    <td style='width:100%'><font color='#000000'>Loaded Resources:&nbsp;<span id="resourcesStatisticsLoadedResourcesCount">0</span></font></td>
+                                </tr>
+                                <tr class='normalTr' rowspan='3'>
+                                    <td style='width:100%'><font color='#0B7500'>Active Resources:&nbsp;<span id="viewsStatisticsActiveResourcesCount">0</span></font></td>
+                                </tr>                               
+                            </table>
+                        </div>
+                    </td>
+                    <td style='width:1%'></td>
+                    <td style='width:8%'>
+                        <div id="dataModelStatistics">
+                            <span style ='font-weight: bold; color: #8E8C8B'>Data Model Dispatch</span><hr>
+                            <table style='width:100%'>                              
+                                <tr class='normalTr'>
+                                    <td style='width:100%'><font color='#0017FF'>GET:&nbsp;<span id="dataModelStatisticsGetDispatched">0</span></font></td>
+                                </tr>
+                                <tr class='normalTr' rowspan='3'>
+                                    <td style='width:100%'><font color='#00009D'>POST:&nbsp;<span id="dataModelStatisticsPostDispatched">0</span></font></td>
+                                </tr>
+                                <tr class='normalTr' rowspan='3'>
+                                    <td style='width:100%'><font color='#78009D'>PUT:&nbsp;<span id="dataModelStatisticsPutDispatched">0</span></font></td>
+                                </tr>   
+                                <tr class='normalTr' rowspan='3'>
+                                    <td style='width:100%'><font color='#B41010'>DELETE:&nbsp;<span id="dataModelStatisticsDeleteDispatched">0</span></font></td>
+                                </tr>                                   
+                            </table>
+                        </div>
+                    </td>
+                    <td style='width:1%'></td>
+                    <td style='width:30%'>
+                        <span style ='font-weight: bold; color: #000000'>Log</span>
+                        <div id="log" class="divForList">
+                            <select id="logSelectMenuList" size="15" multiple style="width: 100%;">
+                            </select>
+                        </div>
+                    </td>                   
+                </tr>
+            </table>
+        </div>
+        <div id="activeViewsTab">
+            <select id="activeViewsSelectMenu">
+                <option>None</option>
+            </select>
+            <input id="highlightActiveView" type="checkbox"/><label for="highlightActiveView" style ='font-weight: bold; color: #8E8C8B'>Highlight Renderer</label>
+            <div id="selectedActiveView">
+                Select an Active View to see details. 
+            </div>
+        </div>
+        <div id="pausedViewsTab">
+            <select id="pausedViewsSelectMenu">
+                <option>None</option>
+            </select>   
+            <div id="selectedPausedView">
+                Select a Paused View to see details. 
+            </div>      
+        </div>
+        <div id="destroyedViewsTab">
+            <select id="destroyedViewsSelectMenu">
+                <option>None</option>
+            </select>   
+            <div id="selectedDestroyedView">
+                Select a Destroyed View to see details. 
+            </div>  
+        </div>
+        <div id="loadedViewsTab">
+            <select id="loadedViewsSelectMenu">
+                <option>None</option>
+            </select>   
+            <div id="selectedLoadedView">
+                Select a Loaded View to see details. 
+            </div>
+        </div>
+        <div id="resourcesTab">
+            <div id="resourcesOptions">
+                <input type="radio" id="activeResourcesRadio" name="resourcesOptionsRadio" checked="checked"><label for="activeResourcesRadio">Active</label>
+                <input type="radio" id="loadedResourcesRadio" name="resourcesOptionsRadio"><label for="loadedResourcesRadio">Loaded</label>
+            </div>
+            <hr>
+            <select id="activeResourcesSelectMenu">
+                <option>None</option>
+            </select>
+            <div id="selectedActiveResource">
+                Select an Active Resource to see details. 
+            </div>
+            <select id="loadedResourcesSelectMenu">
+                <option>None</option>
+            </select>   
+            <div id="selectedLoadedResource">
+                Select a Loaded Resource to see details. 
+            </div>      
+        </div>
+        <div id="querySystemTab">
+            <table style='width:100%'>
+                <tr>
+                    <td style='width:45%'>
+                        <div id="querySystemQueryBuilder">
+                            <span style ='font-weight: bold; color: #8E8C8B'>Query Builder</span><hr>
+                            
+                            <span style ='font-weight: normal; color: #000000'>Select a Resource</span>
+                            <select id="querySystemLoadedResourcesSelectMenu">
+                                <option>None</option>
+                            </select>   
+                            <button id="querySystemGetViewsForResourceButton">Views using this Resource</button>
+                        </div>
+                    </td>
+                    <td style='width:1%'></td>
+                    <td style='width:45%'>
+                        <div id="querySystemResult">
+                            <span style ='font-weight: bold; color: #8E8C8B'>Query Result</span><hr>
+                            
+                            <textarea id="querySystemResultTextArea" rows="20" class="textArea" style ='font-weight: normal; color: #0000FF'></textarea>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>  
+        <div id="dataModelTab">
+            <div id="dataModelOptions">
+                <input type="radio" id="getDataModelRadio" name="dataModelOptionsRadio" checked="checked"><label for="getDataModelRadio">GET</label>
+                <input type="radio" id="postDataModelRadio" name="dataModelOptionsRadio"><label for="postDataModelRadio">POST</label>
+                <input type="radio" id="putDataModelRadio" name="dataModelOptionsRadio"><label for="putDataModelRadio">PUT</label>
+                <input type="radio" id="deleteDataModelRadio" name="dataModelOptionsRadio"><label for="deleteDataModelRadio">DELETE</label>
+            </div>  
+            <hr>
+            <div id="getDataModel">
+                <select id="getDataModelSelectMenuList" size="15" multiple style="width: 100%;">
+                </select>
+            </div>
+            <div id="postDataModel">
+                <select id="postDataModelSelectMenuList" size="15" multiple style="width: 100%;">
+                </select>               
+            </div>
+            <div id="putDataModel">
+                <select id="putDataModelSelectMenuList" size="15" multiple style="width: 100%;">
+                </select>               
+            </div>
+            <div id="deleteDataModel">
+                <select id="deleteDataModelSelectMenuList" size="15" multiple style="width: 100%;">
+                </select>               
+            </div>          
+        </div>      
+        <div id="nativeClientTab">
+        
+        </div>  
+        <div id="wizardsTab">
+        
+        </div>      
+    </div>
+</div>
+<div id="error">MVC Inspector Error !</div>
+
+<!-- Scripts -->
+<script type="text/javascript" src="thirdparty/jquery-1.11.1.min.js"></script>  
+<script type="text/javascript" src="thirdparty/jquery-ui-1.11.2/jquery-ui.js"></script>
+<script type="text/javascript" src="thirdparty/json2.js"></script>      
+<script type="text/javascript" src="thirdparty/d3.min.js"></script>
+<script type="text/javascript" src="thirdparty/d3pie.min.js"></script>
+
+<script type="text/javascript" src="json-formatter.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript" src="utils.js"></script>
+<script type="text/javascript" src="mvc-inspector-panel-query-system.js"></script>
+<script type="text/javascript" src="mvc-inspector-panel.js"></script>
+</body>
+</html>

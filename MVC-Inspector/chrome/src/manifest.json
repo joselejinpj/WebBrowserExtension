@@ -1,0 +1,23 @@
+{
+	"manifest_version": 2,
+	"name": "MVC Inspector",
+	"version": "1.0",
+  
+	"description": "Inspector for MVC Applications.",
+	"icons": { "16": "images/icon.png", "48": "images/icon.png","128": "images/icon.png" },
+
+	"author": "joselejinpj",	
+	"homepage_url": "https://github.com/joselejinpj/WebBrowserExtension",
+	"devtools_page": "main.html",
+	"background": {
+		"scripts": ["background-script.js"],
+		"persistent": false
+	},	
+	"content_scripts": [{
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["content-script.js"],
+		"run_at": "document_start"
+	}],	
+	"permissions": [ "storage", "tabs", "http://*/*", "https://*/*" ],
+	"web_accessible_resources": ["css/mvc-debugger.css", "mvc-debugger.js"]
+}
