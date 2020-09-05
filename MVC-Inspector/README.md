@@ -1,4 +1,4 @@
-# MVC (Model View Controller) Web Browser Extension
+# MVC (Model View Controller) Inspector
 Web Browser Extensions useful for debugging Model View Controller based Web Apps.
 
 # License
